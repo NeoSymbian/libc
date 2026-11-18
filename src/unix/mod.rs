@@ -2559,6 +2559,9 @@ cfg_if! {
     } else if #[cfg(target_os = "nuttx")] {
         mod nuttx;
         pub use self::nuttx::*;
+    } else if #[cfg(target_os = "symbian")] {
+        mod symbian;
+        pub use self::symbian::*;
     } else {
         // Unknown target_os
     }

@@ -102,6 +102,9 @@ cfg_if! {
     } else if #[cfg(target_os = "nuttx")] {
         mod nuttx;
         pub(crate) use nuttx::*;
+    } else if #[cfg(target_os = "symbian")] {
+        mod symbian;
+        pub(crate) use symbian::*;
     } else if #[cfg(target_os = "openbsd")] {
         mod openbsd;
         pub(crate) use openbsd::*;
