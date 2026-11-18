@@ -368,6 +368,8 @@ pub const IPPROTO_ICMP: c_int = 1;
 pub const IPPROTO_ICMPV6: c_int = 58;
 pub const IPPROTO_TCP: c_int = 6;
 pub const IPPROTO_UDP: c_int = 17;
+// Symbian: 0x100 (KSolInetIp), in src/unix/symbian
+#[cfg(not(target_os = "symbian"))]
 pub const IPPROTO_IP: c_int = 0;
 pub const IPPROTO_IPV6: c_int = 41;
 
