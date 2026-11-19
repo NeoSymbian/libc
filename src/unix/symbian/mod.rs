@@ -565,6 +565,11 @@ pub const SIGPIPE: c_int = 13;
 pub const SIGALRM: c_int = 14;
 pub const SIGTERM: c_int = 15;
 pub const SIGSTOP: c_int = 17;
+pub const SIGCHLD: c_int = 20;
+pub const SIGIO: c_int = 23;
+pub const SIGWINCH: c_int = 28;
+pub const SIGUSR1: c_int = 30;
+pub const SIGUSR2: c_int = 31;
 // sigaction's sa_flags (sys/signal.h)
 pub const SA_ONSTACK: c_int = 0x0001;
 pub const SA_RESTART: c_int = 0x0002;
