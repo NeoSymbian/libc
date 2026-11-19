@@ -54,6 +54,19 @@ extern_ty! {
 }
 
 s! {
+    // signal.h: P.I.P.S.'s __siginfo_t
+    pub struct siginfo_t {
+        pub si_signo: c_int,
+        pub si_code: c_int,
+        pub si_errno: c_int,
+        pub si_pid: crate::pid_t,
+        pub si_uid: crate::uid_t,
+        pub si_addr: *mut c_void,
+        pub si_status: c_int,
+        pub si_band: c_long,
+        __si_value: *mut c_void,
+    }
+
     pub struct in_addr {
         pub s_addr: crate::in_addr_t,
     }
@@ -551,6 +564,23 @@ pub const SIGSEGV: c_int = 11;
 pub const SIGPIPE: c_int = 13;
 pub const SIGALRM: c_int = 14;
 pub const SIGTERM: c_int = 15;
+pub const SIGSTOP: c_int = 17;
+// sigaction's sa_flags (sys/signal.h)
+pub const SA_ONSTACK: c_int = 0x0001;
+pub const SA_RESTART: c_int = 0x0002;
+pub const SA_RESETHAND: c_int = 0x0004;
+pub const SA_NOCLDSTOP: c_int = 0x0008;
+pub const SA_NODEFER: c_int = 0x0010;
+pub const SA_NOCLDWAIT: c_int = 0x0020;
+pub const SA_SIGINFO: c_int = 0x0040;
+
+// dlfcn.h (libdl.dll)
+pub const RTLD_LAZY: c_int = 1;
+pub const RTLD_NOW: c_int = 2;
+pub const RTLD_GLOBAL: c_int = 0x100;
+pub const RTLD_LOCAL: c_int = 0;
+pub const RTLD_NEXT: *mut c_void = -1isize as *mut c_void;
+pub const RTLD_DEFAULT: *mut c_void = -2isize as *mut c_void;
 
 pub const EXIT_SUCCESS: c_int = 0;
 pub const EXIT_FAILURE: c_int = 1;
@@ -651,5 +681,14 @@ extern "C" {
         result: *mut *mut passwd,
     ) -> c_int;
     pub fn sigaction(signum: c_int, act: *const sigaction, oldact: *mut sigaction) -> c_int;
+
+    // libdl.dll
+    pub fn dlopen(filename: *const c_char, flag: c_int) -> *mut c_void;
+    pub fn dlsym(handle: *mut c_void, symbol: *const c_char) -> *mut c_void;
+    pub fn dlclose(handle: *mut c_void) -> c_int;
+    pub fn dlerror() -> *mut c_char;
+
+    // not in P.I.P.S.: browser std/cxxrt provides it over User::AllocLen (the heap is an RHeap)
+    pub fn malloc_usable_size(ptr: *mut c_void) -> size_t;
     pub fn utimes(path: *const c_char, times: *const timeval) -> c_int;
 }
