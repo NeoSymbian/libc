@@ -35,7 +35,7 @@ pub type useconds_t = u32;
 pub type rlim_t = i64;
 pub type speed_t = c_uint;
 pub type tcflag_t = c_uint;
-pub type sigset_t = u32;
+pub type sigset_t = u64; // P.I.P.S. sys/_sigset.h: __uint64_t
 
 pub type pthread_t = c_uint;
 pub type pthread_key_t = c_int;
@@ -144,9 +144,11 @@ s! {
         pub sin6_len: u8,
     }
 
+    // P.I.P.S. sys/un.h's __SYMBIAN32__ layout (258 bytes): no leading sun_len, a 255-byte path
     pub struct sockaddr_un {
         pub sun_family: sa_family_t,
-        pub sun_path: [c_char; 104],
+        pub sun_path: [c_char; 255],
+        pub sun_len: u8,
     }
 
     pub struct msghdr {
@@ -235,6 +237,7 @@ s! {
         pub pw_dir: *mut c_char,
         pub pw_shell: *mut c_char,
         pub pw_expire: time_t,
+        pub pw_fields: c_int,
     }
 
     pub struct pollfd {
